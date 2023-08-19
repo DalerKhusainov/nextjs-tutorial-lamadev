@@ -1,11 +1,14 @@
+// GLOBAL STYLES
 import "./globals.css";
+// IMPORTING GOOGLE FONT
 import { Inter } from "next/font/google";
-
+// DEFINING GOOGLE FONT
 const inter = Inter({ subsets: ["latin"] });
-
 // IMPORTING COMPONENTS
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+// IMPORTING REACT CONTEXT API
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata = {
   title: "Create Next App",
@@ -16,9 +19,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <ThemeProvider>
+          <div className="container">
+            <Navbar />
+            {children}
+            <Footer />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

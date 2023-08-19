@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 // STYLES
 import styles from "./navbar.module.css";
+// COMPONENTS
+import DarkModeToggle from "../dark-mode-toggle/DarkModeToggle";
 
 // DATA
 const links = [
@@ -42,14 +44,22 @@ const links = [
 const Navbar = () => {
   return (
     <nav className={styles.container}>
-      <Link href="/">lamamia</Link>
-      <ul>
-        {links.map((link) => (
-          <li key={link.id}>
-            <Link href={link.url}>{link.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <Link href="/" className={styles.logo}>
+        lamamia
+      </Link>
+      <div className={styles.linksAndButton}>
+        <DarkModeToggle />
+        <ul className={styles.linksList}>
+          {links.map((link) => (
+            <li key={link.id} className={styles.linkItem}>
+              <Link href={link.url} className={styles.link}>
+                {link.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <button className={styles.logoutButton}>Logout</button>
+      </div>
     </nav>
   );
 };
