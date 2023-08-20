@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 
 // FETCHING DATA
 async function getData(id) {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
     next: "no-store",
   });
   // The return value is *not* serialized
@@ -20,6 +20,15 @@ async function getData(id) {
   return res.json();
 }
 
+// CHANCHING TITLE DYNAMICALLY THE ON BROWSER TAB
+export async function generateMetadata({ params }) {
+  const post = await getData(params.id);
+  return {
+    title: post.title,
+    description: post.desc,
+  };
+}
+
 const BlogPost = async ({ params }) => {
   const data = await getData(params.id);
 
@@ -28,29 +37,24 @@ const BlogPost = async ({ params }) => {
       <div className={styles.top}>
         <div className={styles.info}>
           <h1 className={styles.title}>{data.title}</h1>
-          <p className={styles.desc}>Desc</p>
+          <p className={styles.desc}>{data.desc}</p>
           <div className={styles.author}>
             <Image
-              src="https://images.pexels.com/photos/5563009/pexels-photo-5563009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src={data.img}
               alt=""
               width={40}
               height={40}
               className={styles.avatar}
             />
-            <span className={styles.username}>User Name</span>
+            <span className={styles.username}>{data.username}</span>
           </div>
         </div>
         <div className={styles.imageContainer}>
-          <Image
-            src="https://images.pexels.com/photos/5563009/pexels-photo-5563009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt=""
-            fill={true}
-            className={styles.image}
-          />
+          <Image src={data.img} alt="" fill={true} className={styles.image} />
         </div>
       </div>
       <div className={styles.content}>
-        <p className={styles.text}>Context Text</p>
+        <p className={styles.text}>{data.content}</p>
       </div>
     </div>
   );

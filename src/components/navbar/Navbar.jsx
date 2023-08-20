@@ -1,7 +1,10 @@
+"use client";
 // REACT HOOKS
 import React from "react";
 // NEXTJS HOOKS
 import Link from "next/link";
+// NEXT AUTH HOOKS
+import { signOut, useSession } from "next-auth/react";
 // STYLES
 import styles from "./navbar.module.css";
 // COMPONENTS
@@ -42,6 +45,8 @@ const links = [
 ];
 
 const Navbar = () => {
+  const session = useSession();
+
   return (
     <nav className={styles.container}>
       <Link href="/" className={styles.logo}>
@@ -58,7 +63,11 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        <button className={styles.logoutButton}>Logout</button>
+        {session.status === "authenticated" && (
+          <button onClick={signOut} className={styles.logoutButton}>
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );
